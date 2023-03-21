@@ -14,9 +14,11 @@ public class PlayerScript : MonoBehaviour
     public TextMeshProUGUI score;
     public TextMeshProUGUI Lives;
     public GameObject winTextObject;
+    public GameObject loseTextObject;
 
     private int scoreValue = 0;
     private int LivesValue = 3;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,7 @@ public class PlayerScript : MonoBehaviour
         rd2d = GetComponent<Rigidbody2D>();
         score.text = "Coins:" + scoreValue.ToString();
         winTextObject.SetActive(false);
+        loseTextObject.SetActive(false);
         Lives.text = "Lives:" + LivesValue.ToString();
     }
 
@@ -54,6 +57,11 @@ public class PlayerScript : MonoBehaviour
             LivesValue -= 1;
             Lives.text = "Lives:" + LivesValue.ToString();
             Destroy(collision.collider.gameObject);
+        }
+
+        if (LivesValue == 0)
+        {
+            loseTextObject.SetActive(true);
         }
 
     }
