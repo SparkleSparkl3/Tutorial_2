@@ -22,6 +22,8 @@ public class PlayerScript : MonoBehaviour
     public AudioClip musicClipOne;
     public AudioClip musicClipTwo;
     public AudioSource musicSource;
+    Animator anim;
+    private bool facingRight = true;
 
     // Start is called before the first frame update
     void Start()
@@ -31,21 +33,49 @@ public class PlayerScript : MonoBehaviour
         winTextObject.SetActive(false);
         loseTextObject.SetActive(false);
         Lives.text = "Lives:" + LivesValue.ToString();
+
         musicSource.clip = musicClipOne;
         musicSource.Play();
         musicSource.loop = true;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        float hozMovement = Input.GetAxis("Horizontal");
+        float hozMovement = Input.GetAxis("Horizontal"); 
         float vertMovement = Input.GetAxis("Vertical");
         rd2d.AddForce(new Vector2(hozMovement * speed, vertMovement * speed));
+
+         if (hozMovement > 0)
+        {
+            anim.SetInteger("State", 2);
+        }
+        
+
+        if (facingRight == false && hozMovement > 0)
+        {
+            Flip();
+        }
+        else if (facingRight == true && hozMovement < 0)
+        {
+            Flip();
+        }
     }
+
+    void Flip()
+   {
+     facingRight = !facingRight;
+     Vector2 Scaler = transform.localScale;
+     Scaler.x = Scaler.x * -1;
+     transform.localScale = Scaler;
+   }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
+       
+
        if (collision.collider.tag == "Coin")
         {
             scoreValue += 1;
@@ -53,9 +83,10 @@ public class PlayerScript : MonoBehaviour
             Destroy(collision.collider.gameObject);
         }
 
+        
         if (scoreValue == 4)
         {
-            transform.position = new Vector3(-12.44f, 49.59f, -7.0f);
+            transform.position = new Vector3(-12.44f, 48.57f, -7.0f);
 
         }
 
@@ -64,6 +95,8 @@ public class PlayerScript : MonoBehaviour
             winTextObject.SetActive(true);
             musicSource.clip = musicClipTwo;
             musicSource.Play();
+            Destroy(Rigidbody2D.rd2d);
+    
         }
 
 
