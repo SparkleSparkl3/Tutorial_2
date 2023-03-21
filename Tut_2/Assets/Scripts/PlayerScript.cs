@@ -19,6 +19,9 @@ public class PlayerScript : MonoBehaviour
     private int scoreValue = 0;
     private int LivesValue = 3;
    
+    public AudioClip musicClipOne;
+    public AudioClip musicClipTwo;
+    public AudioSource musicSource;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +31,9 @@ public class PlayerScript : MonoBehaviour
         winTextObject.SetActive(false);
         loseTextObject.SetActive(false);
         Lives.text = "Lives:" + LivesValue.ToString();
+        musicSource.clip = musicClipOne;
+        musicSource.Play();
+        musicSource.loop = true;
     }
 
     // Update is called once per frame
@@ -47,10 +53,19 @@ public class PlayerScript : MonoBehaviour
             Destroy(collision.collider.gameObject);
         }
 
-        if (scoreValue >= 4)
+        if (scoreValue == 4)
+        {
+            transform.position = new Vector3(-12.44f, 49.59f, -7.0f);
+
+        }
+
+        if (scoreValue >= 9)
         {
             winTextObject.SetActive(true);
+            musicSource.clip = musicClipTwo;
+            musicSource.Play();
         }
+
 
         if (collision.collider.tag == "Enemy")
         {
@@ -63,6 +78,7 @@ public class PlayerScript : MonoBehaviour
         {
             loseTextObject.SetActive(true);
         }
+
 
     }
 
