@@ -26,6 +26,7 @@ public class PlayerScript : MonoBehaviour
     private bool facingRight = true;
     private bool isOnGround;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,6 +72,7 @@ public class PlayerScript : MonoBehaviour
         {
             anim.SetInteger("State", 0);
         }
+
     }
 
     void Flip()
@@ -97,7 +99,7 @@ public class PlayerScript : MonoBehaviour
         if (scoreValue == 4)
         {
             transform.position = new Vector3(-12.44f, 48.57f, -7.0f);
-
+            Lives.text = "Lives:" + LivesValue.ToString();
         }
 
         if (scoreValue >= 9)
