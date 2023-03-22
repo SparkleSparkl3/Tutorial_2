@@ -24,6 +24,7 @@ public class PlayerScript : MonoBehaviour
     public AudioSource musicSource;
     Animator anim;
     private bool facingRight = true;
+    private bool isOnGround;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +62,15 @@ public class PlayerScript : MonoBehaviour
         {
             Flip();
         }
+
+        if (isOnGround == false && vertMovement > 0)
+        {
+            anim.SetInteger("State", 1);
+        }
+        else if (isOnGround == true && vertMovement < 0)
+        {
+            anim.SetInteger("State", 0);
+        }
     }
 
     void Flip()
@@ -95,7 +105,7 @@ public class PlayerScript : MonoBehaviour
             winTextObject.SetActive(true);
             musicSource.clip = musicClipTwo;
             musicSource.Play();
-            Destroy(Rigidbody2D.rd2d);
+           
     
         }
 
@@ -121,7 +131,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                rd2d.AddForce(new Vector2(0, 2), ForceMode2D.Impulse); 
+                rd2d.AddForce(new Vector2(0, 3), ForceMode2D.Impulse); 
             }
         }
     }
